@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+  php-fpm:
+    image: webdevops/php-nginx:8.0-alpine
+    restart: always
+    ports:
+      - 81:80
+    networks:
+      custom_network:
+    environment:
+      - WEB_DOCUMENT_ROOT=/app/public
+      - WEB_DOCUMENT_INDEX=index.php
+    volumes:
+      - ./code/symfony-fpm:/app
+
+  php-swoole:
+    image: phpswoole/swoole:4.6.7-php8.0-alpine
+    restart: always
+    ports:
+      - 82:9501
+    networks:
+      custom_network:
+    volumes:
+      - ./code/symfony-swoole:/var/www
+    command: ["/var/www/bin/console", "swoole:server:run"]
+#    command: ["php", "/var/www/public/index.php"]
+
+  db:
+    image: mysql:8.0
+    restart: always
+    networks:
+      custom_network:
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  db:
+
+networks:
+  custom_network:
