@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.9'
 
 services:
   php-fpm:
@@ -14,8 +14,10 @@ services:
     volumes:
       - ./code/symfony-fpm:/app
 
-  php-swoole:
-    image: phpswoole/swoole:4.6.7-php8.0-alpine
+  php-swoole-symfony:
+    build:
+      context: ./code/symfony-swoole
+      dockerfile: Dockerfile
     restart: always
     ports:
       - 82:9501
@@ -23,24 +25,36 @@ services:
       custom_network:
     volumes:
       - ./code/symfony-swoole:/var/www
-    command: ["/var/www/bin/console", "swoole:server:run"]
+#    command: ["php", "/var/www/bin/console", "swoole:server:run", "--api"]
 #    command: ["php", "/var/www/public/index.php"]
 
-  db:
-    image: mysql:8.0
+  php-swoole-laravel:
+    build:
+      context: ./code/laravel-octane
+      dockerfile: Dockerfile
     restart: always
+    ports:
+      - 83:8000
     networks:
       custom_network:
-    environment:
-      MYSQL_DATABASE: test
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
-      MYSQL_ROOT_PASSWORD: test
     volumes:
-      - db:/var/lib/mysql
+      - ./code/laravel-octane:/var/www
 
-volumes:
-  db:
+#  db:
+#    image: mysql:8.0
+#    restart: always
+#    networks:
+#      custom_network:
+#    environment:
+#      MYSQL_DATABASE: test
+#      MYSQL_USER: test
+#      MYSQL_PASSWORD: test
+#      MYSQL_ROOT_PASSWORD: test
+#    volumes:
+#      - db:/var/lib/mysql
+
+#volumes:
+#  db:
 
 networks:
   custom_network:
