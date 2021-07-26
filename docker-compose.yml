@@ -25,8 +25,7 @@ services:
       custom_network:
     volumes:
       - ./code/symfony-swoole:/var/www
-#    command: ["php", "/var/www/bin/console", "swoole:server:run", "--api"]
-#    command: ["php", "/var/www/public/index.php"]
+    command: ["php", "/var/www/bin/console", "swoole:server:run", "--api"]
 
   php-swoole-laravel:
     build:
@@ -39,6 +38,7 @@ services:
       custom_network:
     volumes:
       - ./code/laravel-octane:/var/www
+    command: ["php", "artisan", "octane:start", "--port=8000", "--host=0.0.0.0"]
 
 #  db:
 #    image: mysql:8.0

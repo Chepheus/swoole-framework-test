@@ -6,4 +6,4 @@ RUN pecl install inotify
 COPY ./ini/inotify.ini /usr/local/etc/php/conf.d/inotify.ini
 
 
-CMD ["php", "/var/www/bin/console", "swoole:server:run", "--api"]
+#CMD ["php", "/var/www/bin/console", "swoole:server:run", "--api"]

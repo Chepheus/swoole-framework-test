@@ -9,4 +9,4 @@ RUN apt install npm -y
 
 RUN npm install --save-dev chokidar
 
-CMD ["php", "artisan", "octane:start", "--watch", "--port=8000", "--host=0.0.0.0"]
+#CMD ["php", "artisan", "octane:start", "--watch", "--port=8000", "--host=0.0.0.0"]
