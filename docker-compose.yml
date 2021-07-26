@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  php-fpm:
+  php-fpm-symfony:
     image: webdevops/php-nginx:8.0-alpine
     restart: always
     ports:
@@ -14,13 +14,26 @@ services:
     volumes:
       - ./code/symfony-fpm:/app
 
+  php-fpm-laravel:
+    image: webdevops/php-nginx:8.0-alpine
+    restart: always
+    ports:
+      - 82:80
+    networks:
+      custom_network:
+    environment:
+      - WEB_DOCUMENT_ROOT=/app/public
+      - WEB_DOCUMENT_INDEX=index.php
+    volumes:
+      - ./code/laravel-fpm:/app
+
   php-swoole-symfony:
     build:
       context: ./code/symfony-swoole
       dockerfile: Dockerfile
     restart: always
     ports:
-      - 82:9501
+      - 83:9501
     networks:
       custom_network:
     volumes:
@@ -33,7 +46,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - 83:8000
+      - 84:8000
     networks:
       custom_network:
     volumes:
