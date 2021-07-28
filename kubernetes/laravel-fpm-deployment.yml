@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-fpm-deployment
+spec:
+  selector:
+    matchLabels:
+      app: laravel-fpm
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: laravel-fpm
+    spec:
+      containers:
+      - name: laravel-fpm
+        image: laravel-fpm-image:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
