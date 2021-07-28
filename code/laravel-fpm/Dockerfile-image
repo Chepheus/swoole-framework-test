@@ -1,0 +1,12 @@
+FROM webdevops/php-nginx:8.0-alpine
+
+RUN groupadd -g 1001 application1 && \
+    useradd -r -u 1001 -g application1 application1
+
+WORKDIR /app
+COPY --chown=application1:application1 . /app
+
+USER application1
+
+ENV WEB_DOCUMENT_ROOT=/app/public
+ENV WEB_DOCUMENT_INDEX=index.php
