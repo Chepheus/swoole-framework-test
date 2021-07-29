@@ -1,4 +1,4 @@
 #!/bin/bash
 
-kubectl delete deployment symfony-fpm-deployment
-kubectl delete service symfony-fpm-service
+kubectl delete deployment symfony-swoole-deployment
+kubectl delete service symfony-swoole-service

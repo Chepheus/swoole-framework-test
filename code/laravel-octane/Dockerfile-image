@@ -1,0 +1,17 @@
+FROM phpswoole/swoole:4.7-php8.0
+
+RUN groupadd -g 1001 application1 && \
+    useradd -r -u 1001 -g application1 application1
+
+RUN apt update && apt upgrade -y
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+    && docker-php-ext-install pcntl
+
+WORKDIR /var/www
+COPY --chown=application1:application1 . /var/www
+
+USER application1
+
+EXPOSE 8000
+
+CMD ["php", "artisan", "octane:start", "--port=8000", "--host=0.0.0.0"]
